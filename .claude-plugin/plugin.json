@@ -1,6 +1,6 @@
 {
   "name": "gama-gantt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Plugin Gama Mobility para generar cartas Gantt + WBS marca-coherentes, con persistencia en Notion (parent page Gantts → iniciativa → versión). Invocable como /gantt.",
   "author": {
     "name": "Gama Mobility — DEV",
