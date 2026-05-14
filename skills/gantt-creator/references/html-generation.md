@@ -112,7 +112,15 @@ Para cada week i en [0, N_weeks):
 
 ### Ruta crítica → clase `critical`
 
-Si `rutaCritica` está definida, marcá todos los bars cuyos `wbs` aparecen en la lista con la clase adicional `critical`. Esto les agrega un outline rojo que destaca la cadena.
+Si `rutaCritica` está definida, marcá los bars cuyos `wbs` aparecen en la lista con la clase adicional `critical`. Esto les agrega un **outline rojo** que destaca la cadena. El background del bar se mantiene en el color del módulo (la clase `.critical` es aditiva, no override).
+
+**Regla importante (contraste):** "Crítico" comunica por contraste con "no crítico". Si el 100% de los módulos del proyecto serían marcados como críticos (proyectos pequeños o totalmente lineales donde toda la cadena es la ruta crítica), **NO apliques `.critical` a ninguno** — el contraste se pierde y el outline rojo deja de tener sentido informativo. En ese caso:
+
+- Omití la clase `.critical` de todos los bars.
+- En el `<p class="lead">` que va arriba del Gantt, mencioná textualmente: "Todo el cronograma es ruta crítica (sin holgura) — cualquier retraso impacta el go-live día por día." Eso preserva la información sin saturar visualmente.
+- En el footer del Gantt, si hay leyenda, omití "Ruta crítica" para no confundir.
+
+Umbral sugerido: si más del **80%** de los módulos serían críticos, aplicá la regla de arriba. Si es <80%, aplicá `.critical` solo a los críticos como cabe esperar.
 
 ## Sección por sección — qué generar
 
