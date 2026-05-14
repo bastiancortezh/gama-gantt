@@ -64,13 +64,29 @@ Cualquier edición a los archivos del plugin se refleja en la próxima invocaci�
 
 ### Opción C · Claude Cowork
 
-Mismo flujo que Claude Code:
+> **Importante:** Cowork **no tiene** el slash command `/plugin install` (eso es exclusivo del CLI). En Cowork los plugins se gestionan por UI desde Settings, y se sincronizan automáticamente desde un repo de GitHub que tenga `.claude-plugin/marketplace.json` (este repo lo tiene).
 
-1. Sube el plugin al repo accesible desde Cowork.
-2. En la sesión de Cowork: `/plugin install <url-del-repo>`.
-3. `/gantt` queda disponible en todas las sesiones futuras del workspace.
+Pasos:
 
-> **Nota Cowork:** las tools MCP de Notion deben estar habilitadas en la configuración del workspace. Si no hay acceso a Notion, la skill genera igualmente el HTML local y reporta el error de persistencia (no rompe el flujo).
+1. **Conectar GitHub a Cowork** (una sola vez por workspace):
+   - Settings → Connectors → GitHub → Autorizar.
+   - Asegurate de que el repo `bastiancortezh/gama-gantt` esté visible para la conexión (si es privado y la conexión es con otra cuenta/org, transferí el repo o agregalo a la org permitida).
+
+2. **Agregar el marketplace en Settings de Cowork**:
+   - Settings → Plugins (o Connectors → Plugins, según versión de Cowork).
+   - "Add marketplace" / "Add plugin source" → pegá la URL del repo:
+     ```
+     https://github.com/bastiancortezh/gama-gantt
+     ```
+   - Cowork detecta el `.claude-plugin/marketplace.json`, lista el plugin `gama-gantt` y permite instalarlo en el workspace.
+
+3. **Instalar el plugin** desde la misma UI — toggle ON.
+
+4. **Habilitar MCP Notion** en Settings → Connectors → Notion (auth con la cuenta Gama con permisos de escritura).
+
+5. **Probar** en una sesión nueva: tipear `/gantt`. Debe arrancar pidiendo Nombre / P.O / Versión.
+
+> Los plugins de Cowork son admin-managed: una vez instalado, queda disponible para todos los usuarios del workspace, no requiere instalación por usuario.
 
 ---
 

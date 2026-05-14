@@ -1,0 +1,18 @@
+{
+  "name": "gama-gantt-marketplace",
+  "owner": {
+    "name": "Gama Mobility — DEV",
+    "url": "https://www.gamamobility.cl"
+  },
+  "plugins": [
+    {
+      "name": "gama-gantt",
+      "description": "Crea cartas Gantt + WBS marca Gama Mobility con persistencia en Notion. Invocable como /gantt.",
+      "source": {
+        "source": "github",
+        "repo": "bastiancortezh/gama-gantt"
+      },
+      "homepage": "https://github.com/bastiancortezh/gama-gantt"
+    }
+  ]
+}
