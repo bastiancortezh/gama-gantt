@@ -69,31 +69,120 @@ Calculá la cantidad total de semanas entre inicio y término. Validá que cuadr
 
 ### Paso 4 · Módulos / paquetes de trabajo
 
-Este es el paso largo. La mejor UX es **pedirle al usuario la lista completa en formato tabular**, no preguntar módulo por módulo (sería tedioso). Patrón:
+Este es el paso largo y el más sensible a la UX. **Ofrecé siempre las dos vías al usuario antes de empezar**:
 
 ```
-Pasame todos los módulos/paquetes en formato CSV-like (uno por línea):
+Hay dos formas de capturar los módulos. ¿Cuál prefieres?
 
-CODIGO | NOMBRE | HH | SEMANAS | OWNER | PREDECESOR | FECHA_INICIO | FECHA_FIN | SPRINT
+A) Guiado paso a paso (default · recomendado para definir desde cero)
+   Vamos sprint por sprint. Para cada sprint te pregunto sus módulos y para
+   cada módulo: nombre, HH/Semanas, owner, predecesor, fechas. Al cerrar
+   cada sprint te muestro el resumen para confirmar antes de pasar al siguiente.
+
+B) Pegar estructura completa (más rápido si ya tenés la tabla armada)
+   Pegás todos los módulos de una en formato CSV/Markdown, o subís un .csv/.xlsx
+   siguiendo el template (te paso el formato si lo necesitas).
+```
+
+Si el usuario no elige explícitamente, asumí **A (guiado)**. Si el contexto sugiere que ya tiene la data (mencionó un Excel, una planilla, un Jira export, etc.), proponé **B** activamente.
+
+#### 4.A — Flujo guiado (iterativo por sprint)
+
+Para cada sprint declarado en el Paso 3, repetí este micro-loop:
+
+1. **Anclar el sprint**. Preguntá:
+   ```
+   ### Sprint <N> de <total>
+   ¿Cómo se llama este sprint? (ej: "Sprint 1", "Discovery", "Hito Go-Live")
+   ¿Fecha de inicio y fecha de término del sprint? (caen dentro del rango del proyecto)
+   ¿Cuántos módulos/paquetes vamos a meter en este sprint?
+   ```
+   Validá que las fechas caigan dentro de `[fechaInicio, fechaFin]` global.
+
+2. **Capturar cada módulo del sprint** (loop interno):
+   ```
+   #### Módulo <i>/<M> del sprint <N>
+   - CODIGO (ej: M1.1, M0.3) — único en todo el proyecto
+   - Nombre corto (lo que va en la celda "Paquete")
+   - <si la unidad es HH o Ambas> HH estimadas
+   - <si la unidad es Semanas o Ambas> Semanas (ej: S2 o S3-S4)
+   - Owner (rol o persona)
+   - Predecesor (CODIGO o "—")
+   - Fecha de inicio (default: inicio del sprint)
+   - Fecha de fin (default: fin del sprint)
+   - Color/Categoría del módulo padre (M0/M1/M2/M3/M4/PM/QA — ver brand-rules.md)
+   ```
+   Para campos con default razonable, ofrecelo entre paréntesis y aceptá un "ok" del usuario sin re-tipearlos.
+
+3. **Cerrar el sprint** mostrando un resumen breve y pedí confirmación:
+   ```
+   ### Resumen Sprint <N> · "<nombre>"
+   - 3 módulos: M1.1 (Análisis · 16 HH), M1.2 (Backend · 40 HH), M1.3 (Frontend · 32 HH)
+   - Total: 88 HH · S1-S3 (2026-06-01 → 2026-06-21)
+   - Owners: Funcional (1), Backend (1), Frontend (1)
+   - ¿Confirmás y pasamos al Sprint <N+1>, o ajustamos algo?
+   ```
+   Si dice ajustar, identificá qué módulo y aplicá el cambio sin re-preguntar todo.
+
+4. **Cuando se cerraron los N sprints**, mostrá el resumen global:
+   ```
+   ### Proyecto completo
+   - <count_modulos> módulos en <count_sprints> sprints
+   - <total_hh> HH totales · <N_weeks> semanas (<fechaInicio> → <fechaFin>)
+   - Distribución por sprint: Sprint 1 (88 HH) · Sprint 2 (120 HH) · Sprint 3 (60 HH)
+   - ¿Avanzamos a hitos firmables (paso 5) o ajustamos algo?
+   ```
+
+> **Importante:** mantené el estado de los sprints capturados en la memoria de la conversación. Si el usuario quiere "volver atrás" a corregir el Sprint 1 cuando ya está en el Sprint 3, usa la última versión correcta del Sprint 1, no re-preguntes desde cero.
+
+#### 4.B — Flujo bulk (paste o archivo)
+
+Ofrecé el formato y el template:
+
+```
+Pegame la tabla completa en cualquiera de estos formatos. Una fila por módulo,
+delimitador `|`, `\t` o `,`. Encabezado obligatorio (orden libre, los detecto):
+
+CODIGO | NOMBRE | HH | SEMANAS | OWNER | PREDECESOR | FECHA_INICIO | FECHA_FIN | SPRINT | COLOR
 
 Ejemplo:
-M1.1 | Análisis funcional | 16 | S2 | Funcional | — | 2026-06-01 | 2026-06-07 | Sprint 1
-M1.2 | Backend CRUD | 40 | S3-S4 | Backend | M1.1 | 2026-06-08 | 2026-06-21 | Sprint 1
+M1.1 | Análisis funcional       | 16  | S2    | Funcional | —     | 2026-06-01 | 2026-06-07 | Sprint 1 | green
+M1.2 | Backend CRUD             | 40  | S3-S4 | Backend   | M1.1  | 2026-06-08 | 2026-06-21 | Sprint 1 | green
+M2.1 | Frontend portal cliente  | 56  | S3-S5 | Frontend  | M1.1  | 2026-06-08 | 2026-06-28 | Sprint 2 | orange
 
-Si trabajamos solo en HH, deja SEMANAS vacío (lo calculo).
-Si trabajamos solo en SEMANAS, deja HH vacío.
-Si la unidad es Ambas, completá las dos.
-SPRINT es el agrupador (Sprint 1, Sprint 2, Hito 1, etc.) — debe coincidir con la cantidad declarada en el paso anterior.
+Tip: para pegar desde Excel, copia el rango con encabezado — el delimitador `\t` se detecta solo.
+Si preferís subir un archivo, podés pasarme un .csv o .xlsx siguiendo este mismo orden de columnas
+(podés bajar el template desde `assets/import-template.csv` del plugin).
+
+Reglas:
+- HH y SEMANAS son opcionales según la unidad declarada en el paso 3:
+  HH → solo HH · Semanas → solo SEMANAS · Ambas → las dos
+- PREDECESOR vacío o "—" significa sin dependencia
+- COLOR es opcional: si no lo especificás, te propongo el mapeo automático según orden de aparición
+  (ver brand-rules.md). Valores: purple | green | orange | red | neutral | pm | qa
+- SPRINT debe coincidir con uno de los nombres que vamos a usar (puedo proponerlos si querés)
 ```
 
-Aceptá pegado de tabla Excel/Markdown también — detectá el delimitador (`|`, `\t`, `,`). Si el usuario provee menos campos de los pedidos, preguntá por los faltantes solo de las filas afectadas.
+Si el usuario sube un archivo Excel/CSV, **leelo** y mostralo parseado como tabla markdown para que confirme antes de continuar. Mostrá explícitamente:
+- Cantidad de filas leídas
+- Sprints detectados
+- Módulos con campos faltantes (si los hay, pedí completarlos sin re-leer el archivo)
 
-**Validaciones críticas antes de avanzar:**
-- Cada módulo tiene CODIGO único.
-- Cada predecesor referencia un CODIGO que existe en la lista (o `—` / vacío).
-- Las fechas caen dentro del rango del proyecto.
-- Cada SPRINT declarado tiene al menos 1 módulo.
-- Si hay dependencias circulares, advertí y pedí corregir.
+Después de parsear, mostrá un resumen idéntico al del paso 4.A.4 (proyecto completo) y pedí confirmación.
+
+#### Validaciones críticas (aplican a ambos flujos)
+
+Antes de avanzar al Paso 5:
+
+- [ ] Cada CODIGO es único en el proyecto.
+- [ ] Cada PREDECESOR referencia un CODIGO que existe en la lista (o es `—`/vacío).
+- [ ] No hay ciclos en el grafo de predecesores.
+- [ ] Cada fecha de módulo cae dentro de `[fechaInicio_proyecto, fechaFin_proyecto]`.
+- [ ] La `FECHA_INICIO` del módulo es ≤ `FECHA_FIN`.
+- [ ] Cada SPRINT declarado tiene ≥ 1 módulo.
+- [ ] La cantidad de sprints capturados == cantidad declarada en Paso 3 (si difiere, preguntá si bajamos/subimos el count o si hay un error).
+
+Si algo falla, no avances al Paso 5. Mostrá los errores agrupados (no uno por uno) y pedí corregir.
 
 ### Paso 5 · Hitos firmables (opcional pero recomendado)
 

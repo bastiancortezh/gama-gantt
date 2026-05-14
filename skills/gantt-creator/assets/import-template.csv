@@ -1,0 +1,20 @@
+CODIGO,NOMBRE,HH,SEMANAS,OWNER,PREDECESOR,FECHA_INICIO,FECHA_FIN,SPRINT,COLOR
+1.1,Kickoff y carta del proyecto,16,S1,PM,—,2026-06-01,2026-06-07,Sprint 0,pm
+1.2,Discovery funcional,40,S1-S2,PM + Funcional,1.1,2026-06-01,2026-06-14,Sprint 0,pm
+1.3,Diseño UX/UI común,60,S1-S3,UX,1.1,2026-06-01,2026-06-21,Sprint 0,pm
+M0.1,Análisis funcional Matriz,20,S3,Funcional + Arq,1.2,2026-06-15,2026-06-21,Sprint 1,purple
+M0.2,Backend vistas SQL + APIs,56,S4-S5,Backend,M0.1,2026-06-22,2026-07-05,Sprint 1,purple
+M0.3,Frontend filtros + exportar,48,S5-S6,Frontend,M0.2,2026-06-29,2026-07-12,Sprint 2,purple
+M1.1,Análisis UX flujo público,20,S3,Funcional + UX,1.2,2026-06-15,2026-06-21,Sprint 1,green
+M1.2,Backend auth por token,40,S4-S5,Backend,M1.1,2026-06-22,2026-07-05,Sprint 1,green
+M1.3,Frontend portal cliente,40,S5-S6,Frontend,M1.2,2026-06-29,2026-07-12,Sprint 2,green
+M2.1,Análisis form + panel reclamos,24,S4,Funcional + UX,1.2,2026-06-22,2026-06-28,Sprint 1,orange
+M2.2,Backend workflow reclamos,56,S5-S6,Backend,M2.1,2026-06-29,2026-07-12,Sprint 2,orange
+M3.1,Análisis Maestro Correos,16,S2,Funcional,1.2,2026-06-08,2026-06-14,Sprint 0,neutral
+M3.2,Backend CRUD Correos,40,S3,Backend,M3.1,2026-06-15,2026-06-21,Sprint 1,neutral
+M4.1,Workshop ERP + diseño integración,32,S2-S3,Arq + ERP,1.2,2026-06-08,2026-06-21,Sprint 1,red
+M4.2,Modelo Deducible/OS/Glosa,24,S3-S4,Backend,M4.1,2026-06-15,2026-06-28,Sprint 1,red
+M4.3,Servicio integración Portal->ERP,72,S5-S7,Backend Sr,M4.2,2026-06-29,2026-07-19,Sprint 2,red
+9.1,Pruebas integradas cross-módulo,40,S10,QA,todos QA,2026-08-03,2026-08-09,Sprint 3,qa
+9.2,UAT con cliente,40,S11,PM + Funcional,9.1,2026-08-10,2026-08-16,Sprint 3,pm
+9.4,Capacitación + Go-Live,32,S12,PM + Soporte,9.2,2026-08-17,2026-08-23,Sprint 3,pm
