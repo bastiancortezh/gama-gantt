@@ -95,7 +95,7 @@ Si el módulo de ruta crítica no es de integración sino otro tipo, igualmente 
 - **Week headers** (row 2): bg `var(--bg-surface)`, texto `10px Montserrat Bold uppercase`.
 - **Bars**: `border-radius: 4px`, alto `16px` dentro de celda de `32px` (top/bottom `8px`), texto blanco `9px Montserrat 600 letter-spacing:0.3px`.
 - **Row-phase** (separador de módulo): `grid-column: 1/-1`, bg `var(--bg-surface)`, padding `8px 16px`, texto `10px uppercase 2px letter-spacing` en el color del módulo correspondiente.
-- **Critical bars** (ruta crítica M4 o equivalente): `box-shadow: 0 0 0 2px var(--bg-card) inset, 0 0 0 3px var(--gama-red)` para destacar.
+- **Critical bars** (ruta crítica): la clase `.critical` es **aditiva** — solo agrega un outline rojo (`box-shadow: 0 0 0 2px var(--bg-card) inset, 0 0 0 3px var(--gama-red)`). **NO reemplaza el background del bar**: el color del módulo (púrpura, naranja, verde, etc.) se conserva debajo. Esto permite que un bar diga "soy del módulo M2 (naranja) Y estoy en la ruta crítica (outline rojo)" simultáneamente.
 
 ## Header del documento
 

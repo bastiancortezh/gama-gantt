@@ -263,7 +263,8 @@
   .bar.m3 { background: var(--m3-color); }
   .bar.m4 { background: var(--m4-color); }
   .bar.critical {
-    background: var(--gama-red);
+    /* additive: NO override del background. El color del módulo se conserva.
+       El outline rojo (doble box-shadow) marca pertenencia a la ruta crítica. */
     box-shadow: 0 0 0 2px var(--bg-card) inset, 0 0 0 3px var(--gama-red);
   }
 
