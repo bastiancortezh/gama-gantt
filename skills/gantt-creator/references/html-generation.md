@@ -193,10 +193,23 @@ Si están definidos, incluir las cards. Si no, comentá la sección o emití un 
 
 ### `{{LOGO_PATH_LIGHT}}` y `{{LOGO_PATH_DARK}}`
 
-Por defecto referencia relativa a `proyecto-dual-write/brandbook/RGB/png/`. Si el HTML va a otra ruta donde esa relativa no funciona, ofreceé al usuario:
-- Mantener relativa (asume estructura de carpetas del repo Gama)
-- Convertir a absoluta (file://)
-- Embeber como base64 (para portabilidad — más pesado, ~200KB)
+El plugin trae los 2 logos necesarios bundleados en `skills/gantt-creator/assets/logos/`:
+- `gamamobility-logo_hz-negocios-n.png` — para light mode (texto negro)
+- `gamamobility-logo_hz-negocios-b.png` — para dark mode (texto blanco)
+
+**Opciones de resolución de path** (preguntale al usuario solo si el bundle no aplica):
+
+1. **Por defecto (Cowork / portable)**: copiar los 2 PNGs junto al HTML generado y usar `./gama-logo-light.png` y `./gama-logo-dark.png`. Más simple, el HTML es portable.
+
+2. **Repo Gama local (DEV/)**: si el HTML va a `DEV/<slug>.html` y el repo Gama está clonado, podés referenciar `./proyecto-dual-write/brandbook/RGB/png/gamamobility-logo_hz-negocios-n.png` (la ruta histórica). Solo funciona si el usuario tiene el monorepo.
+
+3. **Base64 inline**: embebé el PNG como `data:image/png;base64,...`. Más pesado (~50KB cada uno) pero zero file dependencies. Útil para enviar el HTML como un solo adjunto por email.
+
+4. **CDN privado de Gama**: si existe una URL pública del logo, usarla directamente. Requiere internet en runtime.
+
+Antes de escribir el HTML, **copiá los 2 logos al directorio destino** si elegiste opción 1 — el `Write` del HTML no copia archivos relacionados.
+
+El template ya tiene `onerror="this.style.display='none'"` en las `<img>` para fallar elegantemente si el path no resuelve.
 
 ## Validación final
 
